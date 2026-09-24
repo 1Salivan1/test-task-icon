@@ -1,4 +1,3 @@
-// src/components/ui/Icon/Icon.tsx
 import * as LucideIcons from "lucide-react";
 import { tv, type VariantProps } from "tailwind-variants";
 
@@ -49,13 +48,12 @@ export const Icon = ({
 }: IconProps) => {
   // Lucide types their exports as LucideIcon
   const IconComponent = LucideIcons[name] as LucideIcons.LucideIcon;
-  const hasCustomSize = customSize !== undefined;
 
   return (
     <IconComponent
       size={customSize}
       className={iconVariants({
-        size: hasCustomSize ? "custom" : size,
+        size: customSize === undefined ? size : "custom",
         color,
         className,
       })}
