@@ -28,11 +28,8 @@ export const iconVariants = tv({
 
 export type IconName = keyof typeof LucideIcons;
 
-type IconVariantProps = VariantProps<typeof iconVariants>;
-
-export interface IconProps extends Omit<IconVariantProps, "size"> {
+export interface IconProps extends VariantProps<typeof iconVariants> {
   name: IconName;
-  size?: Exclude<IconVariantProps["size"], "custom">;
   className?: string;
   strokeWidth?: number;
   customSize?: number;
