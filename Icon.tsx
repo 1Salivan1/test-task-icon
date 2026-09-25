@@ -10,7 +10,6 @@ export const iconVariants = tv({
       md: "size-5", // 20px
       lg: "size-6", // 24px
       xl: "size-8", // 32px
-      custom: "",
     },
     color: {
       primary: "text-blue-600",
@@ -21,19 +20,24 @@ export const iconVariants = tv({
     },
   },
   defaultVariants: {
-    size: "sm",
     color: "current",
   },
 });
 
 export type IconName = keyof typeof LucideIcons;
 
-export interface IconProps extends VariantProps<typeof iconVariants> {
-  name: IconName;
-  className?: string;
-  strokeWidth?: number;
-  customSize?: number;
-}
+type IconVariantProps = VariantProps<typeof iconVariants>;
+
+type IconSizeProps =
+  | { size?: IconVariantProps["size"]; customSize?: never }
+  | { size?: never; customSize: number };
+
+export type IconProps = Omit<IconVariantProps, "size"> &
+  IconSizeProps & {
+    name: IconName;
+    className?: string;
+    strokeWidth?: number;
+  };
 
 export const Icon = ({
   name,
@@ -50,7 +54,7 @@ export const Icon = ({
     <IconComponent
       size={customSize}
       className={iconVariants({
-        size: customSize === undefined ? size : "custom",
+        size: customSize !== undefined ? undefined : (size ?? "sm"),
         color,
         className,
       })}
